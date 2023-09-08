@@ -1,0 +1,19 @@
+{
+  "configurations": [
+      {
+          "type": "aws-sam",
+          "request": "direct-invoke",
+          "name": "lambda-python3.11-1:HelloWorldFunction (python3.11)",
+          "invokeTarget": {
+              "target": "template",
+              "templatePath": "${workspaceFolder}/deploy/terraform/modules/components/weblog_filtered_kstream/src/filtered_kstream/template.yaml",
+              "logicalId": "FilterFunction"
+          },
+          "lambda": {
+              "payload": {},
+              "environmentVariables": {},
+              "runtime": "python3.11"
+          }
+      },
+  ]
+}
