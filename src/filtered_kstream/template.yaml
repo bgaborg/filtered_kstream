@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  filtered_kstream
+
+  Sample SAM Template for filtered_kstream
+
+Resources:
+  FilterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: hello_world/app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+        - x86_64
+      Timeout: 10
+      Tracing: Active
+      Events:
+        Stream:
+          Type: Kinesis
+          Properties:
+            Stream: !GetAtt streamConsumer.ConsumerARN
+            StartingPosition: LATEST
+            BatchSize: 100
+            
+  stream:
+    Type: "AWS::Kinesis::Stream"
+    Properties:
+      ShardCount: 1
+  streamConsumer:
+    Type: "AWS::Kinesis::StreamConsumer"
+    Properties:
+      StreamARN: !GetAtt stream.Arn
+      ConsumerName: "TestConsumer"
+Outputs:
+  FunctionName:
+    Description: "Function name"
+    Value: !Ref FilterFunction
+
+  StreamARN:
+    Description: "Stream ARN"
+    Value: !GetAtt stream.Arn
+  ConsumerARN:
+    Description: "Stream consumer ARN"
+    Value: !GetAtt streamConsumer.ConsumerARN
