@@ -1,0 +1,17 @@
+{
+    "Records": [
+      {
+        "Data": "first data",
+        "PartitionKey": "pk-1"
+      },
+      {
+        "Data": "second data",
+        "PartitionKey": "pk-2"
+      },
+      {
+        "Data": "3 data",
+        "PartitionKey": "pk-2"
+      }
+    ],
+    "StreamName": "local-stream"
+}
