@@ -2,7 +2,7 @@ kinesis-put-records:
 	docker-compose exec localstack awslocal kinesis put-records --cli-input-json file:///producer-kinesis/put_records.json
 
 lambda-tail-log:
-	aws logs --profile localstack --endpoint-url=http://localhost:4566  tail /aws/lambda/local-lambda --follow
+	aws logs --profile localstack --endpoint-url=http://localhost:4566  tail /aws/lambda/filter_lambda --follow
 
 show-sqs-message-count:
 	aws sqs \
