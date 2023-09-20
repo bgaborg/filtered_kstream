@@ -16,9 +16,9 @@ services:
     volumes:
       - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - ./producer-kinesis:/producer-kinesis
-      - ./filter-lambda:/filter-lambda
-      - ./consumer-lambda:/consumer-lambda
+      - ./input_kinesis:/input_kinesis
+      - ./filter_lambda:/filter_lambda
+      - ./consumer_lambda:/consumer_lambda
   terraform:
     image: hashicorp/terraform:1.5
     volumes:

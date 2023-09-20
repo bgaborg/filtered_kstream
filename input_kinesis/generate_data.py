@@ -18,7 +18,7 @@ def get_data():
 
 def generate(stream_name, kinesis_client):
     #while True:
-    for i in range(1000):
+    for i in range(100):
         data = get_data()
         print(data)
         kinesis_client.put_record(

@@ -1,5 +1,5 @@
-kinesis-put-records:
-	docker-compose exec localstack awslocal kinesis put-records --cli-input-json file:///producer-kinesis/put_records.json
+kinesis-generate-records:
+	python input_kinesis/generate_data.py
 
 lambda-filter-tail-log:
 	aws logs --profile localstack --endpoint-url=http://localhost:4566  tail /aws/lambda/filter_lambda --follow

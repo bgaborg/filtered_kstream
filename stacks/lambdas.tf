@@ -68,15 +68,3 @@ resource "aws_lambda_function" "consumer_lambda" {
     }
   }
 }
-
-# resource "aws_s3_object" "consumer_lambda_file_upload" {
-#   bucket = aws_s3_bucket.local_archive.id
-#   key    = "lambda-functions/${local.consumer_lambda_filename}"
-#   source = "${local.consumer_lambda_file_path}"
-# }
-
-# resource "aws_s3_object" "filter_lambda_file_upload" {
-#   bucket = aws_s3_bucket.local_archive.id
-#   key    = "lambda-functions/${local.filter_lambda_filename}"
-#   source = "${local.filter_lambda_file_path}"
-# }

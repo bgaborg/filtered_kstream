@@ -1,5 +1,6 @@
 # filtered_kstream
 
+## AWS configuration
 ```
 $ aws configure --profile localstack
 AWS Access Key ID [None]: dummy
@@ -18,39 +19,41 @@ region = us-east-1
 output = text
 ```
 
-init
+## Initialize localstack and components
 ```bash
-$ make -C filter_lambda package
-$ docker-compose up -d
-$ docker-compose run --rm terraform init
-$ docker-compose run --rm terraform plan
-$ docker-compose run --rm terraform apply --auto-approve
+make package_lambdas
+docker-compose up -d
+docker-compose run --rm terraform init
+docker-compose run --rm terraform plan
+docker-compose run --rm terraform apply --auto-approve
 ```
 
-confirm kinesis stream
+## Confirm that input and output kinesis stream works
 ```
-aws kinesis --profile localstack --endpoint http://localhost:4566 describe-stream-summary --stream-name local-stream
-```
-
-put record kinesis stream
-```
-make kinesis-put-records
+aws kinesis --profile localstack --endpoint http://localhost:4566 describe-stream-summary --stream-name input_stream
+aws kinesis --profile localstack --endpoint http://localhost:4566 describe-stream-summary --stream-name output_stream
 ```
 
-lambda function package & deploy
+## Put record kinesis stream
+```
+python input_kinesis/generate_data.py
+```
+
+## Lambda functions package & deploy
 ```bash
-make -C consumer package
-make -C consumer deploy
+make package_lambdas
+make deploy_lambdas
 ```
 
-invoke lambda function
+## Invoke lambda function
 ```bash
 docker-compose exec localstack bash -c "
-awslocal lambda invoke --function-name local-lambda --payload file:///consumer/lambda_invoke_payload.json /dev/null --log-type Tail --query 'LogResult' --output text |  base64 -d
+awslocal lambda invoke --function-name filter_lambda --payload file:///input_kinesis/put_records.json /dev/null --log-type Tail --query 'LogResult' --output text |  base64 -d
 "
 ```
 
-tail follow logs lambda
+## Tail follow logs lambda
 ```
-make lambda-tail-log
+lambda-filter-tail-log
+lambda-consumer-tail-log
 ```

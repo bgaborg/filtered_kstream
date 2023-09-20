@@ -1,3 +1,8 @@
+# We don't need to push terraform state files to git
+stacks/*.tfstate
+stacks/*.tfstate.*
+stacks/*.lock.hcl
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -164,3 +169,4 @@ cython_debug/
 #.idea/
 
 .DS_Store
+
